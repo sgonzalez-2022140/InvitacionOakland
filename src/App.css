@@ -5,7 +5,10 @@
   --paperPad: clamp(12px, 2.2vw, 24px);
 }
 * { box-sizing: border-box; }
-
+:root{
+  --paperInset: clamp(12px, 2.8vw, 8px);   /* margen del papel a los bordes */
+  --paperLift:  clamp(10px, 2.4vh, 34px);   /* cuánto asoma hacia arriba */
+}
 html, body, #root { width:100%; height:100%; margin:0; }
 body { font-family: system-ui, Arial, sans-serif; background:#1f1f1f; }
 
@@ -40,6 +43,7 @@ body { font-family: system-ui, Arial, sans-serif; background:#1f1f1f; }
   position:relative;
   transform-style:preserve-3d;
   transition:transform 700ms cubic-bezier(.2,.8,.2,1);
+  overflow: visible;
 }
 .envelope.open{ transform:translateY(-6px) rotateX(0deg); }
 
@@ -92,18 +96,33 @@ body { font-family: system-ui, Arial, sans-serif; background:#1f1f1f; }
 /* Papel (contenido) */
 /* --- PAPER: que el hijo se ESTIRE, no se centre --- */
 /* Papel que ocupa el área disponible entre los bordes de la carta */
-.paper {
-  display: flex;
-  align-items: stretch;
-  justify-content: stretch;
-  
-  padding: var(--paperPad);
+.paper{
+  position: relative;
+
+  /* alto: aire arriba/abajo */
+  top: var(--paperInset);
+  bottom: var(--paperInset);
+
+  /* ancho y centrado horizontal */
+  width: calc(100% - (var(--paperInset) * 2));
+  margin-left: auto;
+  margin-right: auto;
+
+  border-radius: 12px;
+  background:#fff;
+  box-shadow: 0 10px 22px rgba(0,0,0,.18);
+  transition: transform 600ms cubic-bezier(.2,.8,.2,1), opacity 300ms ease;
+  z-index: 2;
+  display:flex;
+  /* importante: sin left/right para que no se desplace */
 }
 
-.paper.paper--up {
-  transform: translateY(-10px) scale(1);
+/* sigue igual tu “lift” al abrir */
+.paper.paper--up{
+  transform: translateY(-10px); /* o var(--paperLift) si lo prefieres */
   opacity: 1;
 }
+
 
 
 /* Invitación */
@@ -113,7 +132,8 @@ body { font-family: system-ui, Arial, sans-serif; background:#1f1f1f; }
   align-items: center;
   text-align: center;
   
-  width: min(900px, 92%);
+  width: min(720px, 94%);
+
   height: auto; /* ya no ocupa 100% para que se centre */
 }
 .invite-window {
@@ -144,7 +164,7 @@ body { font-family: system-ui, Arial, sans-serif; background:#1f1f1f; }
 .window-body{
   flex:1;
   overflow:auto;
-  padding: 24px clamp(14px, 2.5vw, 32px);
+  padding: clamp(18px, 3vw, 32px) clamp(14px, 3.2vw, 36px);
 }
 
 .window-body h2 {
@@ -159,7 +179,7 @@ body { font-family: system-ui, Arial, sans-serif; background:#1f1f1f; }
   margin: 0 auto;
   width: min(900px, 100%);
   display: grid;
-  gap: 10px;
+  gap: clamp(8px, 1.6vw, 14px);
 }
 
 .invite-list li {
@@ -235,4 +255,45 @@ body { font-family: system-ui, Arial, sans-serif; background:#1f1f1f; }
 /* Opcional: en pantallas muy anchas, no hagas el video gigantesco */
 @media (min-width: 1280px){
   .video-wrap{ width: 760px; }   /* tunéalo a tu gusto: 720–820px va bien */
+}
+
+.sticker{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-8deg);
+  width: clamp(72px, 13vw, 120px);
+  height: clamp(72px, 13vw, 120px);
+  border-radius: 999px;
+
+  /* fondo más neutro */
+  background: radial-gradient(ellipse at 35% 35%, #fffefd 0%, #eef3ff 100%);
+  border: 3px dashed rgba(0,0,0,.12);
+  box-shadow: 0 10px 28px rgba(0,0,0,.18);
+
+  display: grid;
+  place-items: center;
+  pointer-events: none;    /* no bloquea el click para abrir */
+  z-index: 5;
+}
+
+.sticker-emoji{
+  font-size: clamp(28px, 5vw, 44px);
+  filter: drop-shadow(0 1px 0 rgba(0,0,0,.2));
+}
+
+/* pequeño efecto al pasar el mouse por la carta (opcional) */
+.envelope:hover .sticker{
+  transform: translate(-50%, -50%) rotate(-4deg) scale(1.04);
+}
+
+@media (max-width: 420px){
+  .window-header{ height: 40px; padding: 0 10px; }
+}
+
+/* el video mantiene aire y no se hace gigante en desktop */
+.video-wrap{
+  width: clamp(260px, 92%, 760px);
+  margin: clamp(14px, 2.2vw, 24px) auto 0;
+  padding: clamp(6px, 1vw, 10px);
 }
