@@ -21,8 +21,8 @@ export default function Invitation() {
 
         <ul className="invite-list">
           <li><strong>Lugar:</strong> Oakland Place</li>
-          <li><strong>Día:</strong> Sábado 30</li>
-          <li><strong>Hora:</strong> 4:00–5:00 PM</li>
+          <li><strong>Día:</strong> La otra semana / la que viene</li>
+          <li><strong>Hora:</strong> 5:00–6:00 PM</li>
         </ul>
 
         {/* Video en la parte de abajo */}
