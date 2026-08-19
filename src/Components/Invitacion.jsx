@@ -13,16 +13,16 @@ export default function Invitation() {
         <span className="dot red" />
         <span className="dot yellow" />
         <span className="dot green" />
-        <div className="window-title">Invitación de su desarrollador de confianza UwU</div>
+        <div className="window-title">Invitación para la salta muros</div>
       </div>
 
       <div className="window-body">
-        <h2>Te invito a patinar </h2>
+        <h2>Te invito a Patinar / Saltar en Air Square / Ambas / Ninguna </h2>
 
         <ul className="invite-list">
           <li><strong>Lugar:</strong> Oakland Place</li>
-          <li><strong>Día:</strong> La otra semana / la que viene</li>
-          <li><strong>Hora:</strong> 5:00–6:00 PM</li>
+          <li><strong>Día:</strong> un finde que se pueda</li>
+          <li><strong>Hora:</strong> En la tarde</li>
         </ul>
 
         {/* Video en la parte de abajo */}
